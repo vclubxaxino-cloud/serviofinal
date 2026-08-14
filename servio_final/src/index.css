@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #12142B;
+  --color-ink-soft: #1D2044;
+  --color-ink-line: #2A2E5C;
+  --color-paper: #FAF8F4;
+  --color-paper-dim: #F0ECE3;
+  --color-gold: #E8A33D;
+  --color-gold-deep: #C67F1E;
+  --color-ok: #2F9E6E;
+  --color-warn: #E8A33D;
+  --color-danger: #D65D5D;
+  --font-display: "Sora", "Segoe UI", sans-serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+}
+
+html { font-family: var(--font-body); background: var(--color-paper); color: var(--color-ink); }
+body { margin: 0; }
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+::selection { background: var(--color-gold); color: var(--color-ink); }
+.font-display { font-family: var(--font-display); }
+.rail::-webkit-scrollbar { height: 0px; }
+.rail { scrollbar-width: none; }
+
+/* Page transitions */
+.page-enter { animation: fadeSlideUp 0.22s ease both; }
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #e8e4dc 25%, #f0ece3 50%, #e8e4dc 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 10px;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Safe area bottom padding for phones */
+.safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

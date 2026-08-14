@@ -1,0 +1,30 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgMedical" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2f2a"/>
+      <stop offset="100%" stop-color="#2a4a42"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bgMedical)"/>
+  <circle cx="330" cy="60" r="90" fill="#34D399" opacity="0.08"/>
+  <circle cx="50" cy="250" r="70" fill="#34D399" opacity="0.06"/>
+
+  <!-- Care bag / medical kit -->
+  <rect x="145" y="140" width="110" height="80" rx="12" fill="#0F241E" stroke="#34D399" stroke-width="2"/>
+  <path d="M 175 140 v -14 a 25 25 0 0 1 50 0 v 14" fill="none" stroke="#34D399" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Cross -->
+  <rect x="188" y="162" width="24" height="56" rx="4" fill="#34D399"/>
+  <rect x="172" y="178" width="56" height="24" rx="4" fill="#34D399"/>
+
+  <!-- Heartbeat line -->
+  <path d="M 70 235 h 40 l 12 -24 l 16 40 l 14 -30 l 10 14 h 158"
+        fill="none" stroke="#34D399" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+
+  <!-- Small heart -->
+  <path d="M 305 100 c -8 -12 -26 -6 -26 8 c 0 12 20 24 26 28 c 6 -4 26 -16 26 -28 c 0 -14 -18 -20 -26 -8 z"
+        fill="#34D399" opacity="0.85"/>
+
+  <!-- Sparkle -->
+  <path d="M 95 85 l 3 9 l 9 3 l -9 3 l -3 9 l -3 -9 l -9 -3 l 9 -3 z" fill="#34D399" opacity="0.7"/>
+</svg>
