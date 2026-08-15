@@ -5,6 +5,16 @@ const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 // For static files served outside /api (e.g. /uploads/kyc/...)
 export const API_ORIGIN = BASE_URL.replace(/\/api\/?$/, "");
 
+// Set by AuthContext on mount. If a request comes back 401 after the app
+// already thinks the person is logged in, this clears that stale state —
+// this happens on iPhone Safari in particular, which can silently drop
+// the session cookie (Intelligent Tracking Prevention) while the app's
+// in-memory state still shows the person as logged in.
+let onSessionExpired = null;
+export function setSessionExpiredHandler(fn) {
+  onSessionExpired = fn;
+}
+
 async function request(path, { method = "GET", body } = {}) {
   const isFormData = body instanceof FormData;
 
@@ -18,6 +28,11 @@ async function request(path, { method = "GET", body } = {}) {
   });
 
   const data = await res.json().catch(() => ({}));
+
+  if (res.status === 401 && path !== "/auth/me" && onSessionExpired) {
+    onSessionExpired();
+  }
+
   if (!res.ok) throw new Error(data.message || "Something went wrong. Please try again.");
   return data;
 }

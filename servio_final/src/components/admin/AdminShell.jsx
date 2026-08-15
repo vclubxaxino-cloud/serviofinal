@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { LayoutDashboard, UserCheck, CalendarCheck, Users2, LogOut, ShieldCheck, LayoutGrid } from "lucide-react";
 import BottomNav from "../shared/BottomNav.jsx";
+import SessionExpiredBanner from "../shared/SessionExpiredBanner.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 const TABS = [
@@ -37,6 +38,7 @@ export default function AdminShell() {
           <LogOut size={14} /> Logout
         </button>
       </div>
+      <SessionExpiredBanner loginPath="/login/admin" />
       <Outlet />
       <BottomNav tabs={TABS} />
     </div>
