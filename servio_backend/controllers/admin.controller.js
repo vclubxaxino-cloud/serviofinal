@@ -3,11 +3,12 @@ import Worker from "../models/Worker.js";
 import Booking from "../models/Booking.js";
 
 export const getStats = async (req, res) => {
-  const [totalUsers, totalWorkers, approvedWorkers, pendingWorkers, pendingBookings, totalBookings, completedThisMonth] =
+  const [totalUsers, totalWorkers, approvedWorkers, onlineWorkers, pendingWorkers, pendingBookings, totalBookings, completedThisMonth] =
     await Promise.all([
       User.countDocuments(),
       Worker.countDocuments(),
       Worker.countDocuments({ kycStatus: "approved" }),
+      Worker.countDocuments({ kycStatus: "approved", isOnline: true }),
       Worker.countDocuments({ kycStatus: "pending" }),
       Booking.countDocuments({ status: "pending_admin" }),
       Booking.countDocuments(),
@@ -24,6 +25,7 @@ export const getStats = async (req, res) => {
       totalUsers,
       totalWorkers,
       approvedWorkers,
+      onlineWorkers,
       pendingWorkers,
       pendingBookings,
       totalBookings,

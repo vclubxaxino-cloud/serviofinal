@@ -59,6 +59,30 @@ export const updateServiceAreas = async (req, res) => {
   res.json({ worker });
 };
 
+// ── Worker: toggle online/offline availability ──────────────────────────────
+// PATCH /api/workers/me/status  { isOnline: true|false }
+export const updateOnlineStatus = async (req, res) => {
+  const { isOnline } = req.body;
+  if (typeof isOnline !== "boolean") {
+    return res.status(400).json({ message: "isOnline must be true or false." });
+  }
+
+  const worker = await Worker.findById(req.actor.id);
+  if (!worker) return res.status(404).json({ message: "Worker not found." });
+
+  if (isOnline && worker.kycStatus !== "approved") {
+    return res.status(403).json({ message: "You can go online only after KYC is approved." });
+  }
+
+  worker.isOnline = isOnline;
+  worker.lastOnlineAt = new Date();
+  await worker.save();
+
+  const safeWorker = worker.toObject();
+  delete safeWorker.password;
+  res.json({ worker: safeWorker });
+};
+
 // ── Worker: notification preferences ────────────────────────────────────────
 export const updateWorkerNotificationPrefs = async (req, res) => {
   const { jobAlerts, payoutUpdates } = req.body;
@@ -80,7 +104,9 @@ export const updateWorkerNotificationPrefs = async (req, res) => {
 export const getApprovedWorkers = async (req, res) => {
   const filter = { kycStatus: "approved" };
   if (req.query.skill) filter.skills = req.query.skill;
-  const workers = await Worker.find(filter).select("-password").sort({ rating: -1 });
+  // Online workers first (so admin sees who can actually be reached right now),
+  // then by rating within each group.
+  const workers = await Worker.find(filter).select("-password").sort({ isOnline: -1, rating: -1 });
   res.json({ workers });
 };
 

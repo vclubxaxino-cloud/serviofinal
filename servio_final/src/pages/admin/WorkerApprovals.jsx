@@ -151,11 +151,21 @@ export default function WorkerApprovals() {
                   <p className="text-[13.5px] font-medium">{w.name}</p>
                   <p className="text-[11px] text-black/40">{w.skills.join(", ")}</p>
                 </div>
-                <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
-                  w.approved ? "bg-[var(--color-ok)]/15 text-[var(--color-ok)]" : "bg-[var(--color-danger)]/10 text-[var(--color-danger)]"
-                }`}>
-                  {w.approved ? "Approved" : "Rejected"}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  {w.approved && (
+                    <span className={`flex items-center gap-1 text-[10px] font-semibold px-2 py-1 rounded-full ${
+                      w.isOnline ? "bg-[var(--color-ok)]/15 text-[var(--color-ok)]" : "bg-black/5 text-black/40"
+                    }`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${w.isOnline ? "bg-[var(--color-ok)]" : "bg-black/30"}`} />
+                      {w.isOnline ? "Online" : "Offline"}
+                    </span>
+                  )}
+                  <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${
+                    w.approved ? "bg-[var(--color-ok)]/15 text-[var(--color-ok)]" : "bg-[var(--color-danger)]/10 text-[var(--color-danger)]"
+                  }`}>
+                    {w.approved ? "Approved" : "Rejected"}
+                  </span>
+                </div>
               </div>
             ))}
           </div>

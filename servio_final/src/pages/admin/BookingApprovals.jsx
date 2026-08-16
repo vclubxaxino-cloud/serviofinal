@@ -36,11 +36,15 @@ export default function BookingApprovals() {
 
   const workersForBooking = (booking) => {
     const skill = booking.service?.category?.name;
-    if (!skill) return approvedWorkers;
+    // Online workers float to the top within each group — admin should see
+    // who can actually take the job right now, first.
+    const byOnline = (arr) => [...arr].sort((a, b) => (b.isOnline === true) - (a.isOnline === true));
+
+    if (!skill) return byOnline(approvedWorkers);
     // Matching workers float to the top, rest still shown as options
     const matching = approvedWorkers.filter(w => w.skills.includes(skill));
     const rest = approvedWorkers.filter(w => !w.skills.includes(skill));
-    return [...matching, ...rest];
+    return [...byOnline(matching), ...byOnline(rest)];
   };
 
   const approve = async (booking) => {
@@ -142,6 +146,7 @@ export default function BookingApprovals() {
                       <span className="flex items-center gap-0.5 text-[11px] text-black/40">
                         <Star size={10} className="text-[var(--color-gold)] fill-[var(--color-gold)]" /> {chosenWorker.rating}
                       </span>
+                      <OnlineBadge isOnline={chosenWorker.isOnline} compact />
                     </span>
                   ) : (
                     <span className="text-[13px] text-black/40">Select a partner…</span>
@@ -165,13 +170,17 @@ export default function BookingApprovals() {
                           }}
                           className="w-full flex items-center gap-3 px-3.5 py-3 border-b border-black/5 last:border-0 text-left active:bg-black/3"
                         >
-                          <div className="w-9 h-9 rounded-full bg-[var(--color-ink)] flex items-center justify-center font-display font-bold text-[var(--color-gold)] text-[13px] shrink-0">
-                            {w.name[0]}
+                          <div className="relative shrink-0">
+                            <div className="w-9 h-9 rounded-full bg-[var(--color-ink)] flex items-center justify-center font-display font-bold text-[var(--color-gold)] text-[13px]">
+                              {w.name[0]}
+                            </div>
+                            <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white ${w.isOnline ? "bg-[var(--color-ok)]" : "bg-black/25"}`} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-1.5">
                               <p className="text-[13px] font-medium truncate">{w.name}</p>
                               {skillMatch && <span className="text-[9px] font-semibold bg-[var(--color-ok)]/15 text-[var(--color-ok)] px-1.5 py-0.5 rounded-full shrink-0">Skill match</span>}
+                              <OnlineBadge isOnline={w.isOnline} compact />
                             </div>
                             <p className="text-[10.5px] text-black/38 truncate">{w.skills.join(", ")}</p>
                           </div>
@@ -254,5 +263,25 @@ function DetailRow({ icon, label, value, sub }) {
         {sub && <span className="text-[11px] text-black/40 block">{sub}</span>}
       </div>
     </div>
+  );
+}
+
+function OnlineBadge({ isOnline, compact }) {
+  if (compact) {
+    return (
+      <span className={`shrink-0 text-[8.5px] font-bold px-1.5 py-0.5 rounded-full ${
+        isOnline ? "bg-[var(--color-ok)]/15 text-[var(--color-ok)]" : "bg-black/8 text-black/40"
+      }`}>
+        {isOnline ? "ONLINE" : "OFFLINE"}
+      </span>
+    );
+  }
+  return (
+    <span className={`shrink-0 flex items-center gap-1 text-[10.5px] font-semibold px-2 py-1 rounded-full ${
+      isOnline ? "bg-[var(--color-ok)]/15 text-[var(--color-ok)]" : "bg-black/5 text-black/40"
+    }`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${isOnline ? "bg-[var(--color-ok)]" : "bg-black/30"}`} />
+      {isOnline ? "Online" : "Offline"}
+    </span>
   );
 }

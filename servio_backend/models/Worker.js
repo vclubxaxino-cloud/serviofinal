@@ -20,6 +20,11 @@ const workerSchema = new mongoose.Schema(
     rating: { type: Number, default: 0 },
     jobsDone: { type: Number, default: 0 },
 
+    // Online/offline availability toggle — worker controls this from their app,
+    // admin sees it live when assigning jobs.
+    isOnline: { type: Boolean, default: false },
+    lastOnlineAt: { type: Date },
+
     // KYC — worker cannot take jobs until admin approves
     kycStatus: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
     aadhaarNumber: { type: String },

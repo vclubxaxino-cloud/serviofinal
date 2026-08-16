@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   getNearbyWorkers, getFeaturedWorkers, getWorkerProfile, getApprovedWorkers,
-  updateServiceAreas, updateWorkerNotificationPrefs,
+  updateServiceAreas, updateWorkerNotificationPrefs, updateOnlineStatus,
   getPendingWorkers, approveWorker, rejectWorker,
 } from "../controllers/worker.controller.js";
 import { protect, requireRole } from "../middleware/auth.middleware.js";
@@ -12,6 +12,7 @@ router.get("/featured", getFeaturedWorkers); // public
 router.get("/nearby", getNearbyWorkers); // kept for backward-compat / other uses
 router.get("/me", protect, requireRole("worker"), getWorkerProfile);
 router.patch("/me/service-areas", protect, requireRole("worker"), updateServiceAreas);
+router.patch("/me/status", protect, requireRole("worker"), updateOnlineStatus);
 router.patch("/me/notification-prefs", protect, requireRole("worker"), updateWorkerNotificationPrefs);
 
 // Admin — KYC review queue + assignment

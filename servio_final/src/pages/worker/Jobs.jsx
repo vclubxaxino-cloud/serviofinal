@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Clock, CheckCircle2, CalendarDays, MapPin, IndianRupee, ChevronRight, Phone } from "lucide-react";
 import { api } from "../../api/client.js";
+import OnlineStatusBar from "../../components/worker/OnlineStatusBar.jsx";
 
 const STATUS_CFG = {
   assigned:  { label: "Assigned", color: "bg-emerald-50 text-emerald-700 border border-emerald-200" },
@@ -48,8 +49,13 @@ export default function Jobs() {
   return (
     <div className="pb-28 page-enter">
       <div className="px-5 pt-6">
-        <h1 className="font-display text-[24px] font-bold">My Jobs</h1>
-        <p className="text-black/45 text-[13px] mt-1">Admin confirms all bookings before they reach you</p>
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h1 className="font-display text-[24px] font-bold">My Jobs</h1>
+            <p className="text-black/45 text-[13px] mt-1">Admin confirms all bookings before they reach you</p>
+          </div>
+        </div>
+        <OnlineStatusBar />
         <div className="flex gap-2 mt-4">
           {[{ key: "upcoming", label: `Upcoming (${upcoming.length})` }, { key: "past", label: `Completed (${past.length})` }].map(t => (
             <button key={t.key} onClick={() => setActiveTab(t.key)}
