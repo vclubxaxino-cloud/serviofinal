@@ -18,6 +18,13 @@ connectDB();
 
 const app = express();
 
+// Render (and most hosting platforms) sit behind a reverse proxy, which
+// adds an X-Forwarded-For header with the real client IP. Without this,
+// express-rate-limit can't trust that header and throws/misbehaves.
+// `1` means trust exactly one hop of proxy (Render's own), not an
+// arbitrary chain — safer than `true`, which would trust any proxy.
+app.set("trust proxy", 1);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
