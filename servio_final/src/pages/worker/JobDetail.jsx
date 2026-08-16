@@ -145,7 +145,7 @@ export default function JobDetail() {
       </div>
 
       {isAssigned && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-black/10 px-5 py-4 safe-bottom">
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur border-t border-black/10 px-5 py-4 safe-bottom">
           <button onClick={() => setShowConfirm(true)} disabled={loading}
             className="w-full bg-[var(--color-ok)] text-white font-bold rounded-xl py-4 text-[15px] disabled:opacity-60 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
             {loading ? <><span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />Marking…</> : <><CheckCircle2 size={18} /> Mark work as done</>}

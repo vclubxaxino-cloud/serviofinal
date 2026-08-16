@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import { connectDB } from "../config/db.js";
 import Category from "../models/Category.js";
 import Service from "../models/Service.js";
+import dns from "dns";
+dns.setServers(['1.1.1.1', '1.0.0.1']);
 import Worker from "../models/Worker.js";
 import Admin from "../models/Admin.js";
 import { categories, services, workers, adminSeed } from "./seedData.js";

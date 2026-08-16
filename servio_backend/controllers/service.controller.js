@@ -2,7 +2,7 @@ import Category from "../models/Category.js";
 import Service from "../models/Service.js";
 
 export const getCategories = async (req, res) => {
-  const categories = await Category.find().sort({ name: 1 });
+  const categories = await Category.find().sort({ displayOrder: 1 });
   res.json({ categories });
 };
 

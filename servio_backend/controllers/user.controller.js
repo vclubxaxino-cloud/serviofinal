@@ -67,7 +67,9 @@ export const deleteAddress = async (req, res) => {
 export const getNotificationPrefs = async (req, res) => {
   const user = await User.findById(req.actor.id);
   if (!user) return res.status(404).json({ message: "Account not found." });
-  res.json({ notificationPrefs: user.notificationPrefs });
+  // Accounts created before this field existed won't have it set — default
+  // to "on" rather than showing broken/undefined toggles.
+  res.json({ notificationPrefs: user.notificationPrefs || { bookingUpdates: true, offers: true } });
 };
 
 export const updateNotificationPrefs = async (req, res) => {

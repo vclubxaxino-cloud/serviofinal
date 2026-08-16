@@ -61,11 +61,14 @@ export default function App() {
         <Route element={<RequireRole role="worker" />}>
           <Route path="/worker" element={<WorkerShell />}>
             <Route index element={<Jobs />} />
-            <Route path="jobs/:id" element={<JobDetail />} />
             <Route path="schedule" element={<Schedule />} />
             <Route path="earnings" element={<Earnings />} />
             <Route path="profile" element={<WorkerProfile />} />
           </Route>
+          {/* Full-screen job detail — no bottom nav, has its own "Mark work as
+              done" action bar fixed to the bottom. Nesting it under WorkerShell
+              made that bar overlap/hide behind the shell's own BottomNav. */}
+          <Route path="/worker/jobs/:id" element={<JobDetail />} />
         </Route>
 
         {/* Admin is intentionally not linked from anywhere in the public UI —

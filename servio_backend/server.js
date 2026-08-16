@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 import { generalLimiter } from "./middleware/rateLimit.middleware.js";
 import dns from "dns";
-dns.setServers(['1.1.1.1']);
+dns.setServers(['1.1.1.1', '1.0.0.1']);
 import authRoutes from "./routes/auth.routes.js";
 import serviceRoutes from "./routes/service.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";

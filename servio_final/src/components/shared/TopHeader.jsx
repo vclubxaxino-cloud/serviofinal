@@ -1,12 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bell, MapPin } from "lucide-react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import NotificationPanel from "./NotificationPanel.jsx";
 
-export default function TopHeader({ city = "Bhilai", bookings = [] }) {
+const CITY_CACHE_KEY = "servio_detected_city";
+
+export default function TopHeader({ bookings = [] }) {
   const { actor, role } = useAuth();
   const [showPanel, setShowPanel] = useState(false);
+  const [city, setCity] = useState(() => localStorage.getItem(CITY_CACHE_KEY) || "");
   const unseenCount = bookings.filter(b => b.status !== "pending_admin").length;
+
+  useEffect(() => {
+    // Already have a cached city from a previous visit — don't ask again.
+    if (city) return;
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const { latitude, longitude } = pos.coords;
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+            { headers: { "Accept-Language": "en" } }
+          );
+          const data = await res.json();
+          const detected =
+            data?.address?.city || data?.address?.town || data?.address?.village || data?.address?.county;
+          if (detected) {
+            setCity(detected);
+            localStorage.setItem(CITY_CACHE_KEY, detected);
+          }
+        } catch {
+          // Silently keep the default — a failed lookup shouldn't block the page.
+        }
+      },
+      () => { /* permission denied or unavailable — keep default, no error shown */ },
+      { timeout: 8000 }
+    );
+  }, [city]);
 
   return (
     <header className="flex items-center justify-between px-5 pt-6 pb-3">
@@ -18,7 +50,7 @@ export default function TopHeader({ city = "Bhilai", bookings = [] }) {
           <p className="font-display font-bold text-[15px] text-[var(--color-ink)]">Servio</p>
           <div className="flex items-center gap-1 -mt-0.5">
             <MapPin size={10} className="text-black/35" />
-            <p className="text-[10.5px] text-black/40">{city}</p>
+            <p className="text-[10.5px] text-black/40">{city || "Detecting location…"}</p>
           </div>
         </div>
       </div>

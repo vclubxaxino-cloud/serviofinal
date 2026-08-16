@@ -1,8 +1,8 @@
 export const categories = [
-  { name: "Video Services", slug: "video", icon: "video" },
-  { name: "Medical Saathi", slug: "medical", icon: "heart-pulse" },
-  { name: "Yatra Saathi", slug: "yatra", icon: "map-pin" },
-  { name: "NRI Parent Care", slug: "nri", icon: "users" },
+  { name: "Video Services", slug: "video", icon: "video", displayOrder: 1 },
+  { name: "Medical Saathi", slug: "medical", icon: "heart-pulse", displayOrder: 2 },
+  { name: "Yatra Saathi", slug: "yatra", icon: "map-pin", displayOrder: 3 },
+  { name: "NRI Parent Care", slug: "nri", icon: "users", displayOrder: 4 },
 ];
 
 // `categorySlug` is resolved to a real Category ObjectId inside scripts/seed.js

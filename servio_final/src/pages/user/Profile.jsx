@@ -292,7 +292,7 @@ function NotificationSheet({ onClose }) {
 
   useEffect(() => {
     api.get("/user/notification-prefs")
-      .then(({ notificationPrefs }) => setPrefs(notificationPrefs))
+      .then(({ notificationPrefs }) => setPrefs(notificationPrefs || { bookingUpdates: true, offers: true }))
       .finally(() => setLoading(false));
   }, []);
 
