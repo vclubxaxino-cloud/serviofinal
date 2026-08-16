@@ -13,7 +13,7 @@ const kycFiles = kycUpload.fields([
   { name: "kycFile", maxCount: 1 },
 ]);
 
-router.post("/register/:role", authLimiter, kycFiles, register);   // /api/auth/register/user or /worker
+router.post("/register/:role", kycFiles, register);   // /api/auth/register/user or /worker
 router.post("/login/:role", authLimiter, login);         // /api/auth/login/user | /worker | /admin
 router.post("/logout", logout);
 router.get("/me", protect, me);
