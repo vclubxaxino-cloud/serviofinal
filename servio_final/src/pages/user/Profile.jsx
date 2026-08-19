@@ -355,9 +355,9 @@ function ToggleRow({ label, desc, checked, onToggle, disabled }) {
       <button
         onClick={onToggle}
         disabled={disabled}
-        className={`w-11 h-6 rounded-full relative transition-colors shrink-0 disabled:opacity-50 ${checked ? "bg-[var(--color-ok)]" : "bg-black/15"}`}
+        className={`w-11 h-6 rounded-full relative transition-colors shrink-0 disabled:opacity-50 overflow-hidden ${checked ? "bg-[var(--color-ok)]" : "bg-black/15"}`}
       >
-        <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${checked ? "translate-x-5" : "translate-x-0.5"}`} />
+        <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`} />
       </button>
     </div>
   );

@@ -290,7 +290,7 @@ function PaymentSheet({ booking, onClose, onConfirmed }) {
             <div className="mx-auto w-fit border-2 border-[var(--color-ink)]/15 rounded-2xl p-3 bg-[var(--color-paper-dim)] mb-4">
               <UpiQrCode upiId={upiInfo.upiId} payeeName={upiInfo.payeeName} amount={booking.package?.price} note={booking.serviceTitle} />
             </div>
-            <p className="text-center text-[11px] text-black/40 font-mono mb-1">{upiInfo.upiId}</p>
+            {/* <p className="text-center text-[11px] text-black/40 font-mono mb-1">{upiInfo.upiId}</p> */}
             <div className="text-center mb-5">
               <p className="text-[12.5px] text-black/40">Amount to pay</p>
               <p className="font-display font-bold text-[30px] text-[var(--color-ink)] mt-0.5">₹{booking.package?.price?.toLocaleString("en-IN")}</p>

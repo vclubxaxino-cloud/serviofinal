@@ -1,7 +1,7 @@
 // Fixed floating WhatsApp button — opens a direct chat with the business number.
 // Replace WHATSAPP_NUMBER with the real business number (country code, no + or spaces).
-const WHATSAPP_NUMBER = "919811000000";
-const DEFAULT_MESSAGE = "Hi! I have a question about Servio.";
+const WHATSAPP_NUMBER = "919992094134";
+const DEFAULT_MESSAGE = "Hi! I Want to book a service with Servio.";
 
 export default function WhatsAppButton() {
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(DEFAULT_MESSAGE)}`;
